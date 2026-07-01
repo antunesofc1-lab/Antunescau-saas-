@@ -190,4 +190,111 @@ export default function Page() {
                       style={{
                         padding: "8px 12px",
                         borderRadius: 20,
-                        border: active ? "1px
+                        border: active ? "1px solid #FF6B4A" : "1px solid #E8E3D8",
+                        background: active ? "#FFF1EC" : "#fff",
+                        color: active ? "#FF6B4A" : "#232323",
+                        fontSize: 13,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {t}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {error && <p style={{ color: "#C1443C", fontSize: 13, marginTop: 14 }}>{error}</p>}
+
+          <button
+            className="ff-btn"
+            onClick={generate}
+            disabled={loading}
+            style={{
+              marginTop: 20,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "12px 22px",
+              borderRadius: 10,
+              border: "none",
+              background: "#FF6B4A",
+              color: "#fff",
+              fontSize: 15,
+              fontWeight: 600,
+              cursor: loading ? "default" : "pointer",
+              opacity: loading ? 0.75 : 1,
+            }}
+          >
+            {loading ? (
+              <>
+                <Loader2 size={16} style={{ animation: "ff-spin 0.8s linear infinite" }} />
+                Forjando conteúdo…
+              </>
+            ) : (
+              <>
+                <Sparkles size={16} />
+                Gerar 3 variações
+              </>
+            )}
+          </button>
+        </section>
+
+        {results.length > 0 && (
+          <section style={{ display: "grid", gap: 14 }}>
+            {results.map((r, idx) => (
+              <div
+                key={idx}
+                style={{
+                  background: "#fff",
+                  border: "1px solid #E8E3D8",
+                  borderRadius: 14,
+                  padding: 20,
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                  <span
+                    className="ff-mono"
+                    style={{
+                      fontSize: 11,
+                      letterSpacing: 1,
+                      color: "#8BA888",
+                      background: "#F0F5EE",
+                      padding: "4px 8px",
+                      borderRadius: 6,
+                    }}
+                  >
+                    VARIAÇÃO {idx + 1} · {r.headline?.toUpperCase()}
+                  </span>
+                  <button
+                    className="ff-btn"
+                    onClick={() => copyToClipboard(r.content, idx)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      background: "none",
+                      border: "1px solid #E8E3D8",
+                      borderRadius: 8,
+                      padding: "6px 10px",
+                      fontSize: 12,
+                      cursor: "pointer",
+                      color: "#5C5850",
+                    }}
+                  >
+                    {copiedIdx === idx ? <Check size={13} /> : <Copy size={13} />}
+                    {copiedIdx === idx ? "Copiado" : "Copiar"}
+                  </button>
+                </div>
+                <p style={{ marginTop: 12, fontSize: 15, lineHeight: 1.6, whiteSpace: "pre-wrap" }}>
+                  {r.content}
+                </p>
+              </div>
+            ))}
+          </section>
+        )}
+      </main>
+    </div>
+  );
+}
